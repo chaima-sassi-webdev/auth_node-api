@@ -1,0 +1,30 @@
+version: '3.9'
+services: 
+  database: 
+    image: postgres:15
+    environment: 
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: virtualisation_db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5433:5432"
+
+  api: 
+    build: ./backend
+    depends_on: 
+      - database
+    ports: 
+      - "5000:5000"
+
+  frontend:
+    build: ./frontend
+    depends_on: 
+      - api
+    ports: 
+      - "3002:3001"
+
+volumes: 
+  pgdata:
