@@ -1,0 +1,2 @@
+*.deb filter=lfs diff=lfs merge=lfs -text
+terraform/.terraform/providers/registry.terraform.io/kreuzwerker/docker/3.6.0/linux_amd64/terraform-provider-docker_v3.6.0 filter=lfs diff=lfs merge=lfs -text
