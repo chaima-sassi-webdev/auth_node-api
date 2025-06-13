@@ -90,3 +90,26 @@ select:focus {
   border-color: #007bff;
   outline: none;
 }
+
+/* role option */
+.role-selection {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 15px;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.role-select {
+  width: 200px;
+  height: 35px;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+

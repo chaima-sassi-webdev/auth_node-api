@@ -1,29 +1,45 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate, useLocation } from "react-router-dom"; 
 import "./users.css";
+
 function UsersList() {
   const [users, setUsers] = useState([]);
   const [error, setError] = useState("");
-  const [currentUserRole, setCurrentUserRole] = useState("user");
+  const [currentUserRole, setCurrentUserRole] = useState();
+  const [editingUserId, setEditingUserId] = useState();
+  const [searchEmail, setSearchEmail] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const RoleFromNavigate = location.state?.role || "user";
 
   useEffect(() => {
-    const role = localStorage.getItem("role") || "user";
-    setCurrentUserRole(role);
-    fetch("http://localhost:5000/users")
+    setCurrentUserRole(RoleFromNavigate);
+    fetch("http://localhost:4000/api/auth/users")
       .then((res) => {
         if (!res.ok) {
           throw new Error("Erreur lors du chargement des utilisateurs");
         }
         return res.json();
       })
-      .then((data) => setUsers(data))
+      .then((data) => {
+        setUsers(data);
+      })
       .catch((err) => setError(err.message));
   }, []);
-   
-   const handleDelete = async (userId) => {
+
+  const displayRole = (role) => {
+    const roleMap = {
+      user: "Utilisateur",
+      admin: "Administrateur",
+      superadmin: "Super Administrateur"
+    };
+    return roleMap[role] || role;
+  };
+
+  const handleDelete = async (userId) => {
     try {
-      const res = await fetch(`http://localhost:5000/users/${userId}`, {
+      const res = await fetch(`http://localhost:4000/api/auth/users/${userId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -41,19 +57,21 @@ function UsersList() {
     }
   };
 
-
   const handleRoleChange = async (userId, newRole) => {
     try {
-      const res = await fetch(`http://localhost:5000/users/${userId}/role`, {
+      const res = await fetch(`http://localhost:4000/api/auth/users/${userId}/role`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ role: currentUserRole, newRole }),
+        body: JSON.stringify({ role: newRole }),
       });
       const data = await res.json();
       if (res.ok) {
-        setUsers(users.map((user) => (user.id === userId ? { ...user, role: newRole } : user)));
+        setUsers(users.map((user) =>
+          user.id === userId ? { ...user, role: newRole } : user
+        ));
+        setEditingUserId(null);
       } else {
         alert(data.message);
       }
@@ -61,17 +79,34 @@ function UsersList() {
       console.error("Erreur modification de rôle:", error);
     }
   };
+
   const handleLogout = () => {
-    localStorage.clear();  // vide localStorage (token, role, etc.)
-    navigate("/");    // redirige vers la page login (ajuste le chemin si besoin)
-  };  
+    localStorage.clear();
+    navigate("/");
+  };
+
+  const filteredUsers = users.filter((user) =>
+    user.email.toLowerCase().includes(searchEmail.toLowerCase())
+  );
+
   return (
     <div className="users-container">
       <div className="users-header">
-        <h2>Liste des Utilisateurs</h2>
-        <button className="logout-button" onClick={handleLogout}>Logout</button>
+        <button className="logout-button" onClick={handleLogout}>
+          Logout
+        </button>
       </div>
       <h2>Liste des Utilisateurs</h2>
+      <div className="search-wrapper">
+        <input
+          type="text"
+          placeholder="Rechercher par email..."
+          className="filter-input"
+          value={searchEmail}
+          onChange={(e) => setSearchEmail(e.target.value)}
+        />
+        <span className="search-icon">🔍</span>
+      </div>
       {error && <p className="error">{error}</p>}
       <table className="users-table">
         <thead>
@@ -79,38 +114,44 @@ function UsersList() {
             <th>ID</th>
             <th>Email</th>
             <th>Rôle</th>
-               {currentUserRole === "admin" && <th>Actions</th>}
+            {(currentUserRole === "admin" || currentUserRole === "superadmin") && (
+              <th>Actions</th>
+            )}
           </tr>
         </thead>
         <tbody>
-          {users.length > 0 ? (
-            users.map((user) => (
+          {filteredUsers.length > 0 ? (
+            filteredUsers.map((user) => (
               <tr key={user.id}>
                 <td>{user.id}</td>
                 <td>{user.email}</td>
                 <td>
-		   {currentUserRole === "admin" ? (
+                  {editingUserId === user.id ? (
                     <select
                       value={user.role}
-                      onChange={(e) => handleRoleChange(user.id, e.target.value)}
+                      onChange={(e) =>
+                        handleRoleChange(user.id, e.target.value)
+                      }
                     >
                       <option value="user">Utilisateur</option>
                       <option value="admin">Administrateur</option>
+                      <option value="superadmin">Super Administrateur</option>
                     </select>
                   ) : (
-                    user.role
+                    displayRole(user.role)
                   )}
-		</td>
- 		{currentUserRole === "admin" && (
+                </td>
+                {(currentUserRole === "admin" || currentUserRole === "superadmin") && (
                   <td>
-                    <button onClick={() => handleDelete(user.id)}>Supprimer</button>
+                    <button onClick={() => setEditingUserId(user.id)}>✏️</button>
+                    <button onClick={() => handleDelete(user.id)}>🗑️</button>
                   </td>
                 )}
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan={currentUserRole === "admin" ? 4 : 3}>Aucun utilisateur trouvé</td>
+              <td colSpan={4}>Aucun utilisateur trouvé</td>
             </tr>
           )}
         </tbody>

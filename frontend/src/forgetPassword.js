@@ -14,13 +14,14 @@ function ForgotPassword() {
     setMessage("");
 
     try {
-      const response = await fetch("http://localhost:5000/verify-email", {
+      const response = await fetch("http://localhost:4000/api/auth/verifyEmail", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       });
 
       const data = await response.json();
+      console.log(data);
       if (response.ok) {
         setEmailVerified(true);
         setMessage("Email vérifié. Veuillez entrer un nouveau mot de passe.");
@@ -31,13 +32,12 @@ function ForgotPassword() {
       setMessage("Erreur serveur.");
     }
   };
-
   const updatePassword = async (e) => {
     e.preventDefault();
     setMessage("");
 
     try {
-      const response = await fetch("http://localhost:5000/reset-password", {
+      const response = await fetch("http://localhost:4000/api/auth/reset-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, newPassword }),
@@ -49,12 +49,12 @@ function ForgotPassword() {
       setMessage("Erreur lors de la mise à jour.");
     }
   };
-  const handleSubmit = async (e) => {
+{ /*  const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
 
     try {
-      const response = await fetch("http://localhost:5000/forgot-password", {
+      const response = await fetch("http://localhost:4000/forgot-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
@@ -66,6 +66,7 @@ function ForgotPassword() {
       setMessage("Erreur, veuillez réessayer.");
     }
   };
+*/ }
 
   return (
     <div className="forgot-password-container">
@@ -77,6 +78,7 @@ function ForgotPassword() {
             placeholder="Entrez votre email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+	    className="field_pass"
             required
           />
           <button type="submit">Vérifier l'e-mail</button>
@@ -88,6 +90,7 @@ function ForgotPassword() {
                placeholder="Nouveau mot de passe"
                value={newPassword}
                onChange={(e) => setNewPassword(e.target.value)}
+	       className="field_pass"
                required
            />
              <button type="submit">Réinitialiser</button>

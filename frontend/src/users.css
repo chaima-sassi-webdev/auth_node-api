@@ -89,3 +89,29 @@ h2 {
 .logout-button:hover {
   background-color: #d32f2f;
 }
+
+
+/* Style de l'input de recherche */
+.search-wrapper {
+  position: relative;
+  width: 300px;
+  margin: 20px auto;
+}
+
+.filter-input {
+  width: 100%;
+  padding: 10px 40px 10px 10px; /* padding-right pour faire de la place à l'icône */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.search-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none; /* pour que l'icône ne bloque pas le clic dans l'input */
+  color: #888;
+  font-size: 18px;
+}

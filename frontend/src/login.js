@@ -19,17 +19,18 @@ function Login() {
       return;
     }
     try {
-      const response = await fetch("http://localhost:5000/login", {
+      const response = await fetch("http://localhost:4000/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
-
-      const data = await response.json();
+      const data = await response.json();      
+      
+      
       if (response.ok) {
         setSuccess("Connexion réussie !");
         localStorage.setItem("token", data.token);
-	navigate("/users");
+        navigate("/users", { state: { role: data.user.role } });
 
       } else {
         setError(data.message || "Email ou mot de passe incorrect");
@@ -51,8 +52,9 @@ function Login() {
           placeholder="Adresse e-mail"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+	  className="field_input"
         />
-
+        <br />
         <input
           type="password"
           placeholder="Mot de passe"
