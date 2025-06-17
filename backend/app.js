@@ -1,4 +1,3 @@
-require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const authRoutes = require('./routes/authRoutes'); // adapte le chemin si nécessaire
@@ -7,18 +6,27 @@ const fs = require('fs');
 const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 4000;
+
 // 🧠 Middleware pour parser le JSON
 app.use(cors());
 app.use(express.json());
 
 // Créer un flux d’écriture vers le fichier backend.log
 const logFile = fs.createWriteStream(path.join(__dirname, '../var/log/backend.log'), { flags: 'a' });
-// Rediriger console.log et console.error vers ce fichier
+
+// Conserver les anciennes fonctions console.log et console.error
+const originalLog = console.log;
+const originalError = console.error;
+
+// Rediriger console.log et console.error vers le fichier ET la console
 console.log = function(message) {
   logFile.write(`[LOG] ${new Date().toISOString()} - ${message}\n`);
+  originalLog(message);
 };
+
 console.error = function(message) {
   logFile.write(`[ERROR] ${new Date().toISOString()} - ${message}\n`);
+  originalError(message);
 };
 
 // 🔒 Middleware CORS pour autoriser les requêtes depuis le frontend
@@ -35,6 +43,7 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: 'Erreur interne du serveur' });
 });
 
+require('dotenv').config();
 
 // 🚀 Connexion à la base de données et démarrage du serveur
 db.authenticate()
@@ -46,8 +55,8 @@ db.authenticate()
     console.log('✅ Tables synchronisées');
     app.listen(PORT, () => {
       console.log(`🚀 Serveur démarré sur le port ${PORT}`);
-  });
+    });
   })
   .catch((err) => {
-      console.log('❌ Erreur lors de la connexion/synchronisation :', err);
-});
+    console.log('❌ Erreur lors de la connexion/synchronisation :', err);
+  });
