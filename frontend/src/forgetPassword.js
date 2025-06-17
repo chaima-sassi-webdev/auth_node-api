@@ -29,7 +29,7 @@ function ForgotPassword() {
         setMessage(data.message || "Email non trouvé.");
       }
     } catch (err) {
-      setMessage("Erreur serveur.");
+      setMessage("Ereur serveur.");
     }
   };
   const updatePassword = async (e) => {
@@ -49,30 +49,12 @@ function ForgotPassword() {
       setMessage("Erreur lors de la mise à jour.");
     }
   };
-{ /*  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setMessage("");
-
-    try {
-      const response = await fetch("http://localhost:4000/forgot-password", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-
-      const data = await response.json();
-      setMessage(data.message || "Vérifiez votre boîte mail.");
-    } catch (err) {
-      setMessage("Erreur, veuillez réessayer.");
-    }
-  };
-*/ }
 
   return (
     <div className="forgot-password-container">
       <h2>Mot de passe oublié</h2>
 	{!emailVerified ? (
-        <form onSubmit={verifyEmail}>
+        <form onSubmit={verifyEmail} className="forgot-form">
           <input
             type="email"
             placeholder="Entrez votre email"
@@ -84,7 +66,7 @@ function ForgotPassword() {
           <button type="submit">Vérifier l'e-mail</button>
         </form>
         ) : (
-           <form onSubmit={updatePassword}>
+           <form onSubmit={updatePassword} className="forgot-form">
              <input
                type="password"
                placeholder="Nouveau mot de passe"
@@ -96,7 +78,7 @@ function ForgotPassword() {
              <button type="submit">Réinitialiser</button>
            </form>
         )}
-      {message && <p>{message}</p>}
+      {message && <p className="message-forgetPassword">{message}</p>}
     </div>
   );
 }

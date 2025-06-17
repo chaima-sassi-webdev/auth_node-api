@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useNavigate, useLocation } from "react-router-dom"; 
 import "./users.css";
 
@@ -11,22 +11,23 @@ function UsersList() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const RoleFromNavigate = location.state?.role || "user";
+  const roleFromNavigate = location.state?.role || "user";
 
   useEffect(() => {
-    setCurrentUserRole(RoleFromNavigate);
+    setCurrentUserRole(roleFromNavigate);
+
     fetch("http://localhost:4000/api/auth/users")
       .then((res) => {
         if (!res.ok) {
           throw new Error("Erreur lors du chargement des utilisateurs");
-        }
-        return res.json();
-      })
-      .then((data) => {
-        setUsers(data);
-      })
-      .catch((err) => setError(err.message));
-  }, []);
+         }
+          return res.json();
+       })
+       .then((data) => setUsers(data))
+       .catch((err) => setError(err.message));
+       // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [roleFromNavigate]);  // <-- le nom doit correspondre exactement
+
 
   const displayRole = (role) => {
     const roleMap = {
@@ -80,10 +81,28 @@ function UsersList() {
     }
   };
 
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate("/");
-  };
+  const handleLogout = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await fetch("http://localhost:4000/api/auth/logout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`, // si le backend utilise jwt.verify()
+        },
+      });
+
+      if (response.ok) {
+        localStorage.clear(); // supprime le token
+        navigate("/"); // redirection vers page login ou accueil
+      } else {
+        console.error("Erreur lors de la déconnexion");
+      }
+    } catch (error) {
+      console.error("Erreur réseau :", error);
+    }
+  }; 
 
   const filteredUsers = users.filter((user) =>
     user.email.toLowerCase().includes(searchEmail.toLowerCase())

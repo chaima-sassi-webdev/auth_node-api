@@ -1,0 +1,36 @@
+
+> backend@1.0.0 start
+> node app.js
+
+Connexion à la base de données réussie.
+✅ Connexion à la base de données réussie.
+✅ Tables synchronisées
+🚀 Serveur démarré sur le port 4000
+[LOG] 2025-06-16T09:27:19.457Z - Connexion à la base de données réussie.
+[LOG] 2025-06-16T09:27:19.458Z - ✅ Connexion à la base de données réussie.
+[LOG] 2025-06-16T09:27:19.469Z - ✅ Tables synchronisées
+[LOG] 2025-06-16T09:27:19.471Z - 🚀 Serveur démarré sur le port 4000
+[LOG] 2025-06-16T09:33:25.570Z - Connexion à la base de données réussie.
+[LOG] 2025-06-16T09:33:25.572Z - ✅ Connexion à la base de données réussie.
+[LOG] 2025-06-16T09:33:25.588Z - ✅ Tables synchronisées
+[LOG] 2025-06-16T09:33:25.591Z - 🚀 Serveur démarré sur le port 4000
+[LOG] 2025-06-16T09:34:21.080Z - ⛑ [REGISTER] req.body =
+[LOG] 2025-06-16T09:34:21.278Z - ✅ Utilisateur créé :
+[ERROR] 2025-06-17T19:09:59.970Z - Impossible de se connecter à la base de données :
+[LOG] 2025-06-17T19:09:59.971Z - ❌ Erreur lors de la connexion/synchronisation :
+[LOG] 2025-06-17T19:15:27.010Z - Connexion à la base de données réussie.
+[LOG] 2025-06-17T19:15:27.084Z - ✅ Connexion à la base de données réussie.
+[LOG] 2025-06-17T19:15:27.375Z - ✅ Tables synchronisées
+[LOG] 2025-06-17T19:15:27.380Z - 🚀 Serveur démarré sur le port 4000
+[LOG] 2025-06-17T19:26:12.485Z - Connexion à la base de données réussie.
+[LOG] 2025-06-17T19:26:12.561Z - ✅ Connexion à la base de données réussie.
+[LOG] 2025-06-17T19:26:12.742Z - ✅ Tables synchronisées
+[LOG] 2025-06-17T19:26:12.750Z - 🚀 Serveur démarré sur le port 4000
+[LOG] 2025-06-17T19:30:38.137Z - Connexion à la base de données réussie.
+[LOG] 2025-06-17T19:30:38.140Z - ✅ Connexion à la base de données réussie.
+[LOG] 2025-06-17T19:30:38.319Z - ✅ Tables synchronisées
+[LOG] 2025-06-17T19:30:38.323Z - 🚀 Serveur démarré sur le port 4000
+[LOG] 2025-06-17T19:34:48.503Z - Connexion à la base de données réussie.
+[LOG] 2025-06-17T19:34:48.505Z - ✅ Connexion à la base de données réussie.
+[LOG] 2025-06-17T19:34:48.684Z - ✅ Tables synchronisées
+[LOG] 2025-06-17T19:34:48.689Z - 🚀 Serveur démarré sur le port 4000

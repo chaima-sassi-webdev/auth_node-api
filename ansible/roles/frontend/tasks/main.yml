@@ -1,0 +1,4 @@
+# ansible/roles/frontend/tasks/main.yml
+- name: Tâche fictive pour le frontend
+  debug:
+    msg: "Le rôle frontend fonctionne"

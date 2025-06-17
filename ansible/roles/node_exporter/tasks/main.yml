@@ -1,0 +1,37 @@
+- name: Créer un utilisateur pour Node exporter
+  user: 
+    name: nodeusr
+    shell: /usr/sbin/nologin
+- name: Télécharger Node Exporter
+  get_url: 
+     url: https://github.com/prometheus/node_exporter/releases/download/v1.8.1/node_exporter-1.8.1.linux-amd64.tar.gz
+     dest: /tmp/node_exporter.tar.gz
+- name: Extraire Node Exporter
+  unarchive:
+    src: /tmp/node_exporter.tar.gz
+    dest: /usr/local/bin/
+    remote_src: yes
+    extra_opts: [--strip-components=1]
+
+- name: Créer un service systemd
+  copy: 
+    dest: /etc/systemd/system/node_exporter.service
+    content: |
+      [Unit]
+      Description=Node Exporter
+      After=network.target
+
+      [Service]
+      User=nodeusr
+      ExecStart= /usr/local/bin/node_exporter
+
+      [Install]
+      WantedBy=default.target
+
+- name: Démarrer Node Exporter
+  systemd:
+    name: node_exporter
+    enabled: yes
+    state: started
+
+

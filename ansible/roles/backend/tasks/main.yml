@@ -1,0 +1,4 @@
+- name: Déployer le backend (auth-api)
+  shell: docker compose up -d auth-api
+  args:
+    chdir: /home/chaima/platform-pfe

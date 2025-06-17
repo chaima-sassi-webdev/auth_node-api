@@ -3,7 +3,11 @@ import "./signup.css";
 import { Link } from "react-router-dom";
 import Swal from 'sweetalert2';
 
-
+const validateEmail = (email) => {
+  // Regex simple qui exige un point dans le domaine (ex: .com)
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
 
 const AlertBox = ({ message, onClose, duration = 5000 }) => {
   useEffect(() => {
@@ -70,7 +74,15 @@ function Signup() {
     e.preventDefault();
     setError("");
     setSuccess("");
+    if (!email) {
+      setError("L’e-mail est requis.");
+      return;
+    }
 
+    if (!validateEmail(email)) {
+     setError("Format d’e-mail invalide. Exemple : exemple@mail.com");
+     return;
+    }
     if (!username || !email || !password || !confirmPassword) {
       setError("Tous les champs sont obligatoires.");
       return;

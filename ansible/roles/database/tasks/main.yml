@@ -1,0 +1,4 @@
+# roles/database/tasks/main.yml
+- name: Tâche fictive pour base de données
+  debug:
+    msg: "Le rôle database fonctionne"

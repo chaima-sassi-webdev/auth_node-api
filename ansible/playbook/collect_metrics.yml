@@ -1,0 +1,8 @@
+---
+- name: Collecte des métriques système
+  hosts: all
+  gather_facts: yes
+  become: yes
+
+  roles:
+    - monitoring

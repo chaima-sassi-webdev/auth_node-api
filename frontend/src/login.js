@@ -65,7 +65,7 @@ function Login() {
         {success && <p className="success">{success}</p>}
         <button type="submit">Se connecter</button>
 	<br /> <br />
-        <p className="forgot-password">
+        <p className="forgot-password-link">
 	  <a href="/forget-password"
 	  >
    	  Mot de passe oublié ?
@@ -77,6 +77,7 @@ function Login() {
               color: "blue",
               cursor: "pointer",
               textDecoration: "underline",
+  	      background: "white",	
             }}
           >
             Registrez-vous

@@ -1,0 +1,12 @@
+- name: Configuration de l'application (variables, ports, environnement)
+  hosts: localhost
+  become: true
+  tasks:
+    - name: Définir variables d’environnement backend
+      copy:
+        dest: "/home/chaima/platform-pfe/backend/.env"
+        content: |
+          DB_HOST=db
+          DB_USER=postgres
+          DB_PASS=123
+          JWT_SECRET=CHAIMA56

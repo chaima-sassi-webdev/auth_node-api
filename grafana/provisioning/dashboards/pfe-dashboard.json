@@ -1,0 +1,62 @@
+{
+  "id": null,
+  "title": "PFE - Monitoring Serveur (Node Exporter)",
+  "tags": ["pfe", "node-exporter"],
+  "timezone": "browser",
+  "schemaVersion": 22,
+  "version": 1,
+  "refresh": "5s",
+  "panels": [
+    {
+      "type": "graph",
+      "title": "Utilisation CPU (%)",
+      "targets": [
+        {
+          "expr": "100 - (avg by (instance) (rate(node_cpu_seconds_total{mode=\"idle\"}[1m])) * 100)",
+          "legendFormat": "{{instance}}",
+          "refId": "A"
+        }
+      ],
+      "datasource": "Prometheus",
+      "gridPos": { "x": 0, "y": 0, "w": 12, "h": 8 }
+    },
+    {
+      "type": "graph",
+      "title": "Utilisation Mémoire (MB)",
+      "targets": [
+        {
+          "expr": "(node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / 1024 / 1024",
+          "legendFormat": "{{instance}}",
+          "refId": "A"
+        }
+      ],
+      "datasource": "Prometheus",
+      "gridPos": { "x": 12, "y": 0, "w": 12, "h": 8 }
+    },
+    {
+      "type": "stat",
+      "title": "Machine UP/DOWN",
+      "targets": [
+        {
+          "expr": "up",
+          "refId": "A"
+        }
+      ],
+      "datasource": "Prometheus",
+      "gridPos": { "x": 12, "y": 8, "w": 6, "h": 4 }
+    },
+    {
+      "type": "stat",
+      "title": "Charge Moyenne (1min)",
+      "targets": [
+        {
+          "expr": "node_load1",
+          "refId": "A"
+        }
+      ],
+      "datasource": "Prometheus",
+      "gridPos": { "x": 18, "y": 8, "w": 6, "h": 4 }
+    }
+  ]
+}
+

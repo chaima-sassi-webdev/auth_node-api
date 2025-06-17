@@ -1,0 +1,2 @@
+- name: Exemple de tâche Docker
+  shell: echo "Docker rôle exécuté"

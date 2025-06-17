@@ -7,21 +7,27 @@ require('dotenv').config();
 const register = async (req, res) => {
   console.log('⛑ [REGISTER] req.body =', req.body);
   const { username, email, password, confirmPassword, role } = req.body;
-
   try {
     const superadminExists = await User.findOne({ where: { role: 'superadmin' } });
-
     if (!username || !email || !password || !confirmPassword) {
       return res.status(400).json({ message: 'Tous les champs sont requis.' });
     }
     if (password !== confirmPassword) {
       return res.status(400).json({ message: 'Les mots de passe ne correspondent pas.' });
     }
+    // Vérification format de l'e-mail
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ message: 'Format d’e-mail invalide.' });
+    }
+    // Vérification longueur du mot de passe
+    if (!password || typeof password !== 'string' || password.trim().length < 6) {
+      return res.status(400).json({ message: 'Le mot de passe doit contenir au moins 6 caractères.' });
+    }
     const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
       return res.status(409).json({ message: 'Un utilisateur avec cet e-mail existe déjà.' });
     }
-
     // Attribution du rôle
     let roleToAssign = 'user';
     if (!superadminExists && role === 'superadmin') {
@@ -29,16 +35,13 @@ const register = async (req, res) => {
     } else if (['admin', 'user'].includes(role)) {
       roleToAssign = role;
     }
-
     const hashedPassword = await bcrypt.hash(password, 10);
-
     const newUser = await User.create({
       username,
       email,
       password: hashedPassword,
       role: roleToAssign,
     });
-
     console.log('✅ Utilisateur créé :', newUser.email);
     return res.status(201).json({
       message: 'Utilisateur créé avec succès.',
@@ -138,11 +141,39 @@ const forgotPassword = async (req, res) => {
   }
 };
 
+// Vérification du mot de passe
+const verifierMotDePasse = (password) => {
+  const erreurs = [];
+
+  if (password.length < 8) {
+    erreurs.push("Le mot de passe est trop court (minimum 8 caractères).");
+  }
+  if (!/[a-z]/.test(password)) {
+    erreurs.push("Le mot de passe doit contenir au moins une lettre minuscule.");
+  }
+  if (!/[A-Z]/.test(password)) {
+    erreurs.push("Le mot de passe doit contenir au moins une lettre majuscule.");
+  }
+  if (!/[0-9]/.test(password)) {
+    erreurs.push("Le mot de passe doit contenir au moins un chiffre.");
+  }
+  if (!/[!@#$%^&*(),.?\":{}|<>]/.test(password)) {
+    erreurs.push("Le mot de passe doit contenir au moins un caractère spécial.");
+  }
+
+  return erreurs;
+};
+
 // 🔑 Changer le mot de passe (après vérification email)
 const resetPassword = async (req, res) => {
   const { email, newPassword } = req.body;
   if (!email || !newPassword) {
     return res.status(400).json({ message: "Email et nouveau mot de passe requis." });
+  }
+  // Vérification de la sécurité du mot de passe
+  const erreurs = verifierMotDePasse(newPassword);
+  if (erreurs.length > 0) {
+    return res.status(400).json({ message: "Mot de passe invalide.", erreurs });
   }
 
   try {
@@ -233,6 +264,18 @@ const checkSuperadmin = async (req, res) => {
   }
 };
 
+
+
+const logout = async (req, res) => {
+  try {
+    res.status(200).json({ message: "Déconnexion réussie." });
+  } catch (err) {
+    res.status(500).json({ message: "Erreur lors de la déconnexion." });
+  }
+};
+
+
+
 module.exports = {
   register,
   login,
@@ -243,4 +286,5 @@ module.exports = {
   deleteUser,
   updateUserRole,
   checkSuperadmin,
+  logout,
 };

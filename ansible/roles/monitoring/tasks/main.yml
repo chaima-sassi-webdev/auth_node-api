@@ -1,0 +1,83 @@
+---
+- name: Collecter les infos système de base
+  debug:
+    msg: |
+      Hostname: {{ ansible_hostname }}
+      OS: {{ ansible_distribution }} {{ ansible_distribution_version }}
+      CPU: {{ ansible_processor_vcpus }} vCPU
+      RAM: {{ ansible_memory_mb.real.total }} MB
+      Uptime: {{ ansible_uptime_seconds }} secondes
+
+- name: Collecter l'usage CPU en pourcentage
+  ansible.builtin.shell: |
+    top -bn1 | grep "Cpu(s)" | awk '{print $2 + $4}'
+  register: cpu_usage
+
+- name: Collecter l'usage RAM en pourcentage
+  ansible.builtin.shell: |
+    free | awk '/Mem:/ {printf "%.2f", $3/$2 * 100.0}'
+  register: ram_usage
+
+- name: Collecter l'usage disque root (/) en pourcentage
+  ansible.builtin.shell: |
+    df -h / | awk 'NR==2 {print $5}'
+  register: disk_usage
+
+- name: Compter les connexions actives TCP ESTABLISHED
+  ansible.builtin.shell: |
+    ss -tun | grep ESTAB | wc -l
+  register: active_connections
+
+- name: Compter les utilisateurs connectés
+  ansible.builtin.shell: who | wc -l
+  register: logged_in_users
+
+- name: Compter les conteneurs Docker en fonctionnement
+  ansible.builtin.shell: docker ps -q | wc -l
+  register: docker_containers_running
+
+- name: Afficher toutes les métriques collectées
+  debug:
+    msg: |
+      Hostname: {{ ansible_hostname }}
+      OS: {{ ansible_distribution }} {{ ansible_distribution_version }}
+      CPU: {{ ansible_processor_vcpus }} vCPU
+      RAM: {{ ansible_memory_mb.real.total }} MB
+      Uptime: {{ ansible_uptime_seconds }} secondes
+      CPU Usage: {{ cpu_usage.stdout | regex_replace(',', '.') }}%
+      RAM Usage: {{ ram_usage.stdout | regex_replace(',', '.') }}%
+      Disk Usage: {{ disk_usage.stdout | regex_replace('%', '') | regex_replace(',', '.') }}
+      Active Connections: {{ active_connections.stdout }}
+      Logged-in Users: {{ logged_in_users.stdout }}
+      Running Docker Containers: {{ docker_containers_running.stdout }}
+
+- name: Sauvegarder toutes les métriques dans un fichier
+  copy:
+    content: |
+      Hostname: {{ ansible_hostname }}
+      OS: {{ ansible_distribution }} {{ ansible_distribution_version }}
+      CPU: {{ ansible_processor_vcpus }} vCPU
+      RAM: {{ ansible_memory_mb.real.total }} MB
+      Uptime: {{ ansible_uptime_seconds }} secondes
+      CPU Usage: {{ cpu_usage.stdout }}%
+      RAM Usage: {{ ram_usage.stdout }}%
+      Disk Usage: {{ disk_usage.stdout }}
+      Active Connections: {{ active_connections.stdout }}
+      Logged-in Users: {{ logged_in_users.stdout }}
+      Running Docker Containers: {{ docker_containers_running.stdout }}
+    dest: /tmp/infos_systeme_{{ inventory_hostname }}.txt
+
+- name: Générer fichier de métriques Prometheus
+  copy:
+    dest: /var/lib/node_exporter/textfile_collector/custom_metrics.prom
+    content: |
+      custom_os_info{os="{{ ansible_distribution }}_{{ ansible_distribution_version }}"} 1
+      custom_cpu_count {{ ansible_processor_vcpus }}
+      custom_memory_total_mb {{ ansible_memory_mb.real.total }}
+      custom_uptime_seconds {{ ansible_uptime_seconds }}
+      custom_cpu_usage_percent {{ cpu_usage.stdout }}
+      custom_ram_usage_percent {{ ram_usage.stdout }}
+      custom_disk_usage_percent {{ disk_usage.stdout | regex_replace('%', '') }}
+      custom_active_connections {{ active_connections.stdout }}
+      custom_logged_in_users {{ logged_in_users.stdout }}
+      custom_docker_containers_running {{ docker_containers_running.stdout }}

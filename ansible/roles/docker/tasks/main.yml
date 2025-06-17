@@ -1,0 +1,4 @@
+- name: Déployer tous les services Docker
+  shell: docker compose up -d
+  args:
+    chdir: /home/chaima/platform-pfe

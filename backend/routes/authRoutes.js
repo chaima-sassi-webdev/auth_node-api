@@ -15,7 +15,6 @@ router.put('/user/:id/role', authController.updateUserRole);
 router.get('/check-superadmin', authController.checkSuperadmin);
 router.post('/verifyEmail', authController.verifyEmail);
 router.post('/reset-password', authController.resetPassword);
-//router.post('/forgot-password', authController.forgotPassword);
-
+router.post("/logout", authController.logout);
 
 module.exports = router;
