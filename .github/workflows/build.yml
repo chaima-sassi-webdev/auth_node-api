@@ -1,4 +1,4 @@
-name: Build
+name: Build and Analyze with SonarQube
 
 on:
   push:
@@ -7,21 +7,15 @@ on:
 
 jobs:
   build:
-    name: Build and analyze
+    name: Analyze with SonarQube
     runs-on: ubuntu-latest
     
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Pour éviter les clones superficiels
-
-      - uses: sonarsource/sonarqube-scan-action@master
+      - name: SonarQube Scan
+        uses: sonarsource/sonarqube-scan-action@master
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-
-      # Si tu veux échouer le job si la Quality Gate est rouge :
-      # - uses: sonarsource/sonarqube-quality-gate-action@master
-      #   timeout-minutes: 5
-      #   env:
-      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
