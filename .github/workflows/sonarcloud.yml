@@ -23,12 +23,13 @@ jobs:
 
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@v1
-        with:
-          projectKey: chaima-sassi-webdev_auth_node-api
-          organization: chaima-sassi-webdev
-          token: ${{ secrets.SONAR_TOKEN }}
         env:
-          SONAR_HOST_URL: https://sonarcloud.io
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: https://sonarcloud.io
+          SONAR_PROJECT_KEY: chaima-sassi-webdev_auth_node-api
+          SONAR_ORGANIZATION: chaima-sassi-webdev
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
+
+      - name: Clear Sonar Cache
+        run: rm -rf ~/.sonar/cache
