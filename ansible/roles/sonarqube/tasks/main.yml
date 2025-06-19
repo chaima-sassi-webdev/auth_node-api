@@ -1,26 +1,51 @@
 ---
+- name: Installer unzip si nécessaire
+  apt:
+    name: unzip
+    state: present
+    update_cache: yes
+
 - name: Installer Java (prérequis SonarQube)
   apt:
     name: openjdk-11-jdk
     state: present
     update_cache: yes
 
+- name: Vérifier si SonarQube est déjà installé
+  stat:
+    path: /opt/sonarqube
+  register: sonarqube_dir
+
+- name: Vérifier si l’archive SonarQube est déjà téléchargée
+  stat:
+    path: /tmp/sonarqube.zip
+  register: sonarqube_zip
+
 - name: Télécharger SonarQube
   get_url:
-    url: https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-10.0.0.66906.zip
+    url: https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-10.5.1.90531.zip
     dest: /tmp/sonarqube.zip
+    timeout: 60
+  when: not sonarqube_dir.stat.exists and not sonarqube_zip.stat.exists
 
-- name: Décompresser SonarQube
+- name: Vérifier si le dossier décompressé existe
+  stat:
+    path: /opt/sonarqube-10.5.1.90531
+  register: sonarqube_extracted
+
+- name: Décompresser SonarQube si pas déjà installé
   unarchive:
     src: /tmp/sonarqube.zip
     dest: /opt
     remote_src: yes
+  when: not sonarqube_dir.stat.exists
 
 - name: Créer un lien symbolique vers sonarqube
   file:
-    src: /opt/sonarqube-10.0.0.66906
+    src: /opt/sonarqube-10.5.1.90531
     dest: /opt/sonarqube
     state: link
+  when: sonarqube_extracted.stat.exists
 
 - name: Configurer SonarQube comme service systemd
   copy:
@@ -41,8 +66,36 @@
       [Install]
       WantedBy=multi-user.target
 
+- name: Recharger systemd pour prendre en compte les changements
+  command: systemctl daemon-reload
+
 - name: Démarrer et activer SonarQube
   systemd:
     name: sonarqube
     enabled: yes
-    state: started
+    state: restarted
+
+
+- name: Configurer JDBC URL pour auth-db
+  lineinfile: 
+    path: /opt/sonarqube/conf/sonar.properties
+    regexp: '^#?sonar.jdbc.url='
+    line: 'sonar.jdbc.url=jdbc:postgresql://localhost:5432/auth_db'
+
+
+- name: Définir l'utilisateur PostgreSQL
+  lineinfile:
+    path: /opt/sonarqube/conf/sonar.properties
+    regexp: '^#?sonar.jdbc.username='
+    line: 'sonar.jdbc.username=postgres'
+    state: present
+    backup: yes
+
+
+- name: Activer l'écoute sur toutes les interfaces (0.0.0.0)
+  lineinfile:
+    path: /opt/sonarqube/conf/sonar.properties
+    regexp: '^sonar\.web\.host='
+    line: 'sonar.web.host=0.0.0.0'
+    state: present
+    backup: yes
