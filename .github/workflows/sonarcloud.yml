@@ -22,12 +22,11 @@ jobs:
           java-version: 17
 
       - name: SonarCloud Scan
-        uses: sonarsource/sonarqube-scan-action@v5
+        uses: sonarsource/sonarcloud-github-action@master
         with:
           projectKey: chaima-sassi-webdev_auth_node-api
           organization: chaima-sassi-webdev
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: https://sonarcloud.io
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
