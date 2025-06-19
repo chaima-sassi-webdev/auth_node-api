@@ -26,6 +26,7 @@ jobs:
         with:
           projectKey: chaima-sassi-webdev_auth_node-api
           organization: chaima-sassi-webdev
+          token: ${{ secrets.SONAR_TOKEN }}
         env:
           SONAR_HOST_URL: https://sonarcloud.io
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
