@@ -1,8 +1,8 @@
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
-  email VARCHAR(255) UNIQUE NOT NULL,
-  username VARCHAR(100) UNIQUE NOT NULL,
+  email VARCHAR2(255) UNIQUE NOT NULL,
+  username VARCHAR2(100) UNIQUE NOT NULL,
   password TEXT NOT NULL,
   confirmPassword TEXT NOT NULL,
-  role VARCHAR(50) DEFAULT 'user'
+  role VARCHAR2(50) DEFAULT 'user'
 );

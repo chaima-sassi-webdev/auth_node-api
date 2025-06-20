@@ -29,7 +29,8 @@ function ForgotPassword() {
         setMessage(data.message || "Email non trouvé.");
       }
     } catch (err) {
-      setMessage("Ereur serveur.");
+        console.error("Erreur lors de la vérification de l'email :", err);
+        setMessage("Ereur serveur.");
     }
   };
   const updatePassword = async (e) => {
@@ -46,7 +47,8 @@ function ForgotPassword() {
       const data = await response.json();
       setMessage(data.message || "Mot de passe mis à jour !");
     } catch (err) {
-      setMessage("Erreur lors de la mise à jour.");
+	console.error("Erreur lors de la mise à jour du mot de passe :", err);
+        setMessage("Erreur lors de la mise à jour.");
     }
   };
 

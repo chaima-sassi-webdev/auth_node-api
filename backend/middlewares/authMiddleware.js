@@ -1,19 +1,20 @@
-//middlewares/authMiddleware.js
-
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
+exports.verifyToken = (req, res, next) => {
+  const authHeader = req.headers?.authorization;
+  const token = authHeader?.split(" ")[1];
 
-exports.verifyToken = (req,res,next) => {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(" ")[1];
-  if (!token) return res.status(403).json({ message: "Token manquant" });
+  if (!token) {
+    return res.status(403).json({ message: "Token manquant" });
+  }
+
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-    if (err) return res.status(401).json({ message: "Token invalide" });
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-      if (err) return res.status(401).json({ message: "Token invalide" });
-      req.user = user;
-      next();
-    });
+    if (err) {
+      return res.status(401).json({ message: "Token invalide" });
+    }
+
+    req.user = user;
+    next();
   });
 };

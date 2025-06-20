@@ -154,10 +154,10 @@ const verifierMotDePasse = (password) => {
   if (!/[A-Z]/.test(password)) {
     erreurs.push("Le mot de passe doit contenir au moins une lettre majuscule.");
   }
-  if (!/[0-9]/.test(password)) {
+  if (!/\d/.test(password)) {
     erreurs.push("Le mot de passe doit contenir au moins un chiffre.");
   }
-  if (!/[!@#$%^&*(),.?\":{}|<>]/.test(password)) {
+  if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
     erreurs.push("Le mot de passe doit contenir au moins un caractère spécial.");
   }
 
@@ -266,13 +266,10 @@ const checkSuperadmin = async (req, res) => {
 
 
 
-const logout = async (req, res) => {
-  try {
-    res.status(200).json({ message: "Déconnexion réussie." });
-  } catch (err) {
-    res.status(500).json({ message: "Erreur lors de la déconnexion." });
-  }
+const logout = (req, res) => {
+  res.status(200).json({ message: "Déconnexion réussie." });
 };
+
 
 
 

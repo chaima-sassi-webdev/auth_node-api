@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./signup.css";
 import { Link } from "react-router-dom";
 import Swal from 'sweetalert2';
+import PropTypes from 'prop-types';
 
 const validateEmail = (email) => {
   // Regex simple qui exige un point dans le domaine (ex: .com)
@@ -23,6 +24,14 @@ const AlertBox = ({ message, onClose, duration = 5000 }) => {
     </div>
   );
 };
+
+
+AlertBox.propTypes = {
+  message: PropTypes.string.isRequired,
+  onClose: PropTypes.func.isRequired,
+  duration: PropTypes.number,
+};
+
 
 function Signup() {
   const [roleRadio, setRoleRadio] = useState("");
@@ -122,6 +131,7 @@ function Signup() {
         setError(data.message || "Erreur lors de l'inscription.");
       }
     } catch (err) {
+      console.error("Erreur lors de la vérification  :", err);
       setError("Erreur serveur. Veuillez réessayer plus tard.");
     }
   };
@@ -141,7 +151,7 @@ function Signup() {
               value="superadmin"
               checked={roleRadio === "superadmin"}
               onChange={handleRadioChange}
-            />
+            /> {' '}
             Superadmin
           </label>
           <label className="radio-option">
@@ -151,7 +161,7 @@ function Signup() {
               value="autre"
               checked={roleRadio === "autre"}
               onChange={handleRadioChange}
-            />
+            /> {' '}
             Autre
           </label>
         </div>
