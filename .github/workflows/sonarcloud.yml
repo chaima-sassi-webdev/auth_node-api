@@ -3,13 +3,13 @@ name: SonarCloud
 on:
   push:
     branches:
-      - main 
+      - main
 
 jobs:
   sonarcloud:
     name: Analyse SonarCloud
     runs-on: ubuntu-latest
-   
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -20,7 +20,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: temurin
-          java-version: 17 
+          java-version: 17
 
       - name: Vérifier que SONAR_TOKEN est bien défini
         run: |
@@ -34,7 +34,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
       - name: Debug env variables (temporaire)
-        run: env | grep SONAR
+        run: env | grep SONAR || echo "No SONAR env var found"
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
@@ -46,8 +46,19 @@ jobs:
         env:
           CI: true
 
+      - name: Check SONAR_TOKEN presence before scan
+        run: |
+          if [ -z "$SONAR_TOKEN" ]; then
+            echo "SONAR_TOKEN is not set!"
+            exit 1
+          else
+            echo "SONAR_TOKEN is set, proceeding with scan..."
+          fi
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
       - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@v2
+        uses: SonarSource/sonarcloud-github-action@v1.10
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
