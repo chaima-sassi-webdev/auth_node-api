@@ -32,6 +32,15 @@
   ansible.builtin.shell: who | wc -l
   register: logged_in_users
 
+- name: Afficher le nombre d’utilisateurs connectés récupéré
+  ansible.builtin.shell: who
+  register: users_connected
+- debug:
+    msg: "{{ users_connected.stdout_lines }}"
+
+
+
+
 - name: Compter les conteneurs Docker en fonctionnement
   ansible.builtin.shell: docker ps -q | wc -l
   register: docker_containers_running

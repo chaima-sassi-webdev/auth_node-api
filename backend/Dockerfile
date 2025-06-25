@@ -1,4 +1,4 @@
-#Etape 1: image Node.js et officielle
+#Etape 1: image Node.js officielle
 FROM node:20-alpine
 
 #Créer le répertoire de travail

@@ -1,11 +1,11 @@
 apiVersion: 1
 
-providers: 
+providers:
   - name: 'PFE Dashboards'
     orgId: 1
     folder: 'PFE Monitoring'
     type: file
     disableDeletion: false
     editable: true
-    options: 
+    options:
       path: /etc/grafana/provisioning/dashboards
