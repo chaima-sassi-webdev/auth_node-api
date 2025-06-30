@@ -2,66 +2,30 @@ terraform {
   required_providers {
     docker = {
       source  = "kreuzwerker/docker"
-      version = "~> 3.0"
+      version = "~> 3.0.2"
     }
   }
 }
 
 provider "docker" {}
 
-# Réseau personnalisé
+# Réseau utilisé par Docker Compose
+
 resource "docker_network" "app_network" {
-  name = "app_network"
+  name = "monitoring"
 }
 
-# Conteneur PostgreSQL
-resource "docker_container" "postgres" {
-  name  = "postgres-db"
-  image = docker_image.postgres.name
+# Volume utilisé par PostgreSQL
 
-  networks_advanced {
-    name = docker_network.app_network.name
-  }
-
-  env = [
-    "POSTGRES_USER=admin",
-    "POSTGRES_PASSWORD=secret",
-    "POSTGRES_DB=mydb"
-  ]
-
-  ports {
-    internal = 5432
-    external = 5432
-  }
+resource "docker_volume" "pg_data" {
+  name = "postgres_data"
 }
 
-resource "docker_image" "postgres" {
-  name = "postgres:15"
-}
+# Lancer automatiquement le playbook Ansible
 
-# Conteneur backend API
-resource "docker_container" "auth_api" {
-  name  = "auth-api"
-  image = docker_image.auth_api.name
-
-  networks_advanced {
-    name = docker_network.app_network.name
+resource "null_resource" "run_ansible" {
+  provisioner "local-exec" {
+    working_dir = "../ansible"
+    command = "ansible-playbook -i ../ansible/inventory/hosts.ini ../ansible/playbook/deploy.yml --ask-become-pass"
   }
-
-  ports {
-    internal = 3000
-    external = 3000
-  }
-
-  depends_on = [docker_container.postgres]
-}
-
-resource "docker_image" "auth_api" {
-  name = "chaimahs/auth-api:latest"
-  build {
-    context    = "../backend/"
-    dockerfile = "Dockerfile"
-  }
-
-
 }

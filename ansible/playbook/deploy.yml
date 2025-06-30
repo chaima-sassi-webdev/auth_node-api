@@ -6,3 +6,5 @@
     - database
     - backend
     - frontend
+    - monitoring
+    - node_exporter

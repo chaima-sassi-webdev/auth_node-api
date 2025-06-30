@@ -73,25 +73,6 @@ services:
     networks:
       - monitoring
 
-  node_exporter:
-    image: prom/node-exporter:latest
-    container_name: node-exporter
-    restart: always
-    pid: "host"
-    ports:
-      - "9100:9100"
-    volumes:
-      - /proc:/host/proc:ro
-      - /sys:/host/sys:ro
-      - /:/rootfs:ro
-      - /var/lib/node_exporter/textfile_collector:/var/lib/node_exporter/textfile_collector
-    command:
-      - --path.procfs=/host/proc
-      - --path.sysfs=/host/sys
-      - --collector.textfile.directory=/var/lib/node_exporter/textfile_collector
-    networks:
-      - monitoring
-
 volumes:
   db-data:
   grafana-data:
