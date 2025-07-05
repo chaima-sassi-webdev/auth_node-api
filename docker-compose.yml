@@ -24,7 +24,7 @@ services:
     ports:
       - "4000:4000"
     env_file:
-      - .env
+      - ./backend/.env
     depends_on:
       - db
     networks:

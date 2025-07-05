@@ -1,6 +1,8 @@
 require('dotenv').config();
 const { Sequelize } = require('sequelize');
 
+
+const isProduction = process.env.NODE_ENV === 'production';
 const dbUrl = isProduction ? process.env.DATABASE_URL_PROD : process.env.DATABASE_URL_LOCAL;
 
 if ( !dbUrl ) {
