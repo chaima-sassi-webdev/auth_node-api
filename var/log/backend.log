@@ -46,3 +46,12 @@ Connexion à la base de données réussie.
 [LOG] 2025-06-17T21:18:50.933Z - ✅ Connexion à la base de données réussie.
 [LOG] 2025-06-17T21:18:51.140Z - ✅ Tables synchronisées
 [LOG] 2025-06-17T21:18:51.144Z - 🚀 Serveur démarré sur le port 4000
+[LOG] 2025-06-30T14:29:32.003Z - Connexion à la base de données réussie.
+[LOG] 2025-06-30T14:29:32.007Z - ✅ Connexion à la base de données réussie.
+[LOG] 2025-06-30T14:29:32.186Z - ✅ Tables synchronisées
+[LOG] 2025-06-30T14:29:32.189Z - 🚀 Serveur démarré sur le port 4000
+[LOG] 2025-07-03T22:16:59.208Z - Connexion à la base de données réussie.
+[LOG] 2025-07-03T22:16:59.214Z - ✅ Connexion à la base de données réussie.
+[LOG] 2025-07-03T22:16:59.383Z - ✅ Tables synchronisées
+[LOG] 2025-07-03T22:16:59.388Z - 🚀 Serveur démarré sur le port 4000
+[ERROR] 2025-07-05T12:12:21.150Z - Impossible de se connecter à la base de données :

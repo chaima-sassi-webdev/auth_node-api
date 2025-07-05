@@ -257,12 +257,14 @@ const updateUserRole = async (req, res) => {
 const checkSuperadmin = async (req, res) => {
   try {
     const superadmin = await User.findOne({ where: { role: 'superadmin' } });
+    console.log('[DEBUG] Résultat de findOne:', superadmin);
     res.status(200).json({ exists: !!superadmin });
   } catch (error) {
     console.error('[CHECK SUPERADMIN ERROR]', error);
     res.status(500).json({ message: 'Erreur serveur' });
   }
 };
+
 
 
 

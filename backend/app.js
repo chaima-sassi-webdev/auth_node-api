@@ -58,5 +58,7 @@ db.authenticate()
     });
   })
   .catch((err) => {
-    console.log('❌ Erreur lors de la connexion/synchronisation :', err);
+    console.error('❌ Erreur lors de la connexion/synchronisation :', err.message);
+    console.error(err.stack);
+    process.exit(1);
   });
