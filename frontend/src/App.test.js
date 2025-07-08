@@ -10,5 +10,5 @@ test('renders Accueil', () => {
       <App />
     </BrowserRouter>
   );
-  expect(screen.getByText(/Accueil/i)).toBeInTheDocument();
+  expect(screen.getByText(/connexion/i)).toBeInTheDocument();
 });
