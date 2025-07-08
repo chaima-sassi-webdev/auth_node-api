@@ -1,6 +1,6 @@
 - name: Déploiement de la plateforme hybride
   hosts: auth_app
-  become: true
+  become: yes
   roles:
     - docker
     - database

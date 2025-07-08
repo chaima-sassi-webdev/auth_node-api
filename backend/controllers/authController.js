@@ -1,7 +1,26 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
+const client = require('prom-client');
+
 require('dotenv').config();
+const prometheusRegister = client.register;
+// Compteurs
+const registerCounter = new client.Counter({
+  name: 'app_user_register_total',
+  help: 'Nombre total de tentatives d’enregistrement',
+});
+
+const loginCounter = new client.Counter({
+  name: 'app_user_login_total',
+  help: 'Nombre total de connexions utilisateur',
+});
+
+const userCRUDCounter = new client.Counter({
+  name: 'app_user_crud_operations_total',
+  help: 'Nombre total d’opérations CRUD sur les utilisateurs',
+  labelNames: ['operation'] // create, read, update, delete
+});
 
 // 🔐 Enregistrement d'un nouvel utilisateur
 const register = async (req, res) => {
@@ -42,6 +61,7 @@ const register = async (req, res) => {
       password: hashedPassword,
       role: roleToAssign,
     });
+    registerCounter.inc();
     console.log('✅ Utilisateur créé :', newUser.email);
     return res.status(201).json({
       message: 'Utilisateur créé avec succès.',
@@ -74,7 +94,7 @@ const login = async (req, res) => {
     if (!isMatch) {
       return res.status(401).json({ message: 'Mot de passe incorrect.' });
     }
-
+    loginCounter.inc();
     const token = jwt.sign(
       { id: user.id, role: user.role },
       process.env.JWT_SECRET,
@@ -199,6 +219,7 @@ const getAllUsers = async (req, res) => {
     const users = await User.findAll({
       attributes: ['id', 'username', 'email', 'role'], // éviter de renvoyer les mots de passe
     });
+    userCRUDCounter.inc({ operation: 'read' });
     res.json(users);
   } catch (error) {
     console.error("[GET USERS ERROR]", error);
@@ -218,6 +239,7 @@ const deleteUser = async (req, res) => {
   try {
     const deleted = await User.destroy({ where: { id } });
     if (deleted) {
+      userCRUDCounter.inc({ operation: 'delete' });
       res.status(200).json({ message: "Utilisateur supprimé avec succès." });
     } else {
       res.status(404).json({ message: "Utilisateur non trouvé." });
@@ -245,6 +267,7 @@ const updateUserRole = async (req, res) => {
 
     user.role = newRole;
     await user.save();
+    userCRUDCounter.inc({ operation: 'update' });
 
     res.status(200).json({ message: "Rôle mis à jour avec succès." });
   } catch (error) {
@@ -285,5 +308,6 @@ module.exports = {
   deleteUser,
   updateUserRole,
   checkSuperadmin,
+  prometheusRegister,
   logout,
 };

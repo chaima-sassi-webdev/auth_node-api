@@ -20,35 +20,35 @@ resource "docker_volume" "pg_data" {
 }
 
 # Conteneur PostgreSQL
-resource "docker_container" "postgres" {
-  name  = "postgres"
-  image = "postgres:15"
-  networks_advanced {
-    name = docker_network.app_network.name
-  }
+#resource "docker_container" "postgres" {
+#  name  = "postgres"
+#  image = "postgres:15"
+#  networks_advanced {
+#    name = docker_network.app_network.name
+#  }
 
-  volumes {
-    volume_name    = docker_volume.pg_data.name
-    container_path = "/var/lib/postgresql/data"
-  }
+#  volumes {
+#    volume_name    = docker_volume.pg_data.name
+#    container_path = "/var/lib/postgresql/data"
+#  }
 
-  env = [
-    "POSTGRES_USER=admin",
-    "POSTGRES_PASSWORD=admin",
-    "POSTGRES_DB=auth_db"
-  ]
+#  env = [
+#    "POSTGRES_USER=admin",
+#    "POSTGRES_PASSWORD=admin",
+#    "POSTGRES_DB=auth_db"
+#  ]
 
-  ports {
-    internal = 5432
-    external = 5432
-  }
-}
+#  ports {
+#    internal = 5432
+#    external = 5432
+#  }
+#}
 
 # Conteneur Backend (API Node.js)
 resource "docker_container" "backend" {
   name  = "backend-api"
   image = "chaimahs/auth-api:latest"  # Remplace par le bon nom d’image si différent
-  depends_on = [docker_container.postgres]
+#  depends_on = [docker_container.postgres]
   networks_advanced {
     name = docker_network.app_network.name
   }
@@ -86,7 +86,6 @@ resource "null_resource" "run_ansible" {
 
   provisioner "local-exec" {
     working_dir = "../ansible"
-    command = "ansible-playbook -i ../ansible/inventory/hosts.ini ../ansible/playbook/deploy.yml"
+    command = "ansible-playbook -i inventory/hosts.ini playbook/deploy.yml"
   }
 }
-

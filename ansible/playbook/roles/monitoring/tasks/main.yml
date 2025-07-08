@@ -76,7 +76,7 @@
       Running Docker Containers: {{ docker_containers_running.stdout }}
     dest: /tmp/infos_systeme_{{ inventory_hostname }}.txt
 
-- name: Générer fichier de métriques Prometheus
+- name: Générer fichier de métriques Prometheus corrigé
   copy:
     dest: /var/lib/node_exporter/textfile_collector/custom_metrics.prom
     content: |
@@ -84,9 +84,10 @@
       custom_cpu_count {{ ansible_processor_vcpus }}
       custom_memory_total_mb {{ ansible_memory_mb.real.total }}
       custom_uptime_seconds {{ ansible_uptime_seconds }}
-      custom_cpu_usage_percent {{ cpu_usage.stdout }}
-      custom_ram_usage_percent {{ ram_usage.stdout }}
-      custom_disk_usage_percent {{ disk_usage.stdout | regex_replace('%', '') }}
+      custom_cpu_usage_percent {{ cpu_usage.stdout | replace(',', '.') }}
+      custom_ram_usage_percent {{ ram_usage.stdout | replace(',', '.') }}
+      custom_disk_usage_percent {{ disk_usage.stdout | regex_replace('%', '') | replace(',', '.') }}
       custom_active_connections {{ active_connections.stdout }}
       custom_logged_in_users {{ logged_in_users.stdout }}
       custom_docker_containers_running {{ docker_containers_running.stdout }}
+

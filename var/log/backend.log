@@ -55,3 +55,8 @@ Connexion à la base de données réussie.
 [LOG] 2025-07-03T22:16:59.383Z - ✅ Tables synchronisées
 [LOG] 2025-07-03T22:16:59.388Z - 🚀 Serveur démarré sur le port 4000
 [ERROR] 2025-07-05T12:12:21.150Z - Impossible de se connecter à la base de données :
+[ERROR] 2025-07-06T08:59:38.697Z - Impossible de se connecter à la base de données :
+[ERROR] 2025-07-07T02:35:30.686Z - Impossible de se connecter à la base de données :
+[ERROR] 2025-07-07T23:55:47.427Z - Impossible de se connecter à la base de données :
+[ERROR] 2025-07-07T23:56:26.661Z - Impossible de se connecter à la base de données :
+[ERROR] 2025-07-08T01:31:08.830Z - Impossible de se connecter à la base de données :

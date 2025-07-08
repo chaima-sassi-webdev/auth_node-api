@@ -1,3 +1,16 @@
+- name: Arrêter et supprimer les conteneurs existants pour éviter les conflits de ports
+  docker_container:
+    name: "{{ item }}"
+    state: absent
+    force_kill: yes
+  loop:
+    - frontend-app
+    - auth-api
+    - auth-db
+    - prometheus
+    - grafana
+  ignore_errors: yes
+
 - name: Déployer tous les services Docker
   shell: docker compose up -d
   args:
