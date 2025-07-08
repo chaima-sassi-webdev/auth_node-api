@@ -10,13 +10,13 @@ function UsersList() {
   const [searchEmail, setSearchEmail] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
-
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:4000";
   const roleFromNavigate = location.state?.role || "user";
 
   useEffect(() => {
     setCurrentUserRole(roleFromNavigate);
 
-    fetch("http://localhost:4000/api/auth/users")
+    fetch(`${API_URL}/api/auth/users`)
       .then((res) => {
         if (!res.ok) {
           throw new Error("Erreur lors du chargement des utilisateurs");
@@ -40,7 +40,7 @@ function UsersList() {
 
   const handleDelete = async (userId) => {
     try {
-      const res = await fetch(`http://localhost:4000/api/auth/users/${userId}`, {
+      const res = await fetch(`${API_URL}/api/auth/users/${userId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -60,7 +60,7 @@ function UsersList() {
 
   const handleRoleChange = async (userId, newRole) => {
     try {
-      const res = await fetch(`http://localhost:4000/api/auth/users/${userId}/role`, {
+      const res = await fetch(`${API_URL}/api/auth/users/${userId}/role`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -85,7 +85,7 @@ function UsersList() {
     try {
       const token = localStorage.getItem("token");
 
-      const response = await fetch("http://localhost:4000/api/auth/logout", {
+      const response = await fetch(`${API_URL}/api/auth/logout`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

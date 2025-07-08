@@ -9,7 +9,7 @@ function Login() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const navigate = useNavigate();
-
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:4000";
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -20,7 +20,7 @@ function Login() {
     }
     try {
      // const response = await fetch("http://localhost:4000/api/auth/login", {
-       const response = await fetch(`${process.env.REACT_APP_API_URL}/auth/login`, {
+       const response = await fetch(`${API_URL}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

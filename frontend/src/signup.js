@@ -42,11 +42,11 @@ function Signup() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:4000";
   // Vérifier si un superadmin existe déjà
   const checkSuperadminExists = async () => {
     try {
-      const res = await fetch("http://localhost:4000/api/auth/check-superadmin");
+      const res = await fetch(`${API_URL}/api/auth/check-superadmin`);
       const data = await res.json();
       return data.exists;
     } catch (err) {
@@ -105,7 +105,7 @@ function Signup() {
     const finalRole = roleRadio === "autre" ? roleSelect : roleRadio;
 
     try {
-      const response = await fetch("http://localhost:4000/api/auth/register", {
+      const response = await fetch(`${API_URL}/api/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

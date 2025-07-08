@@ -6,7 +6,7 @@ function ForgotPassword() {
   const [message, setMessage] = useState("");
   const [emailVerified, setEmailVerified] = useState(false);
   const [newPassword, setNewPassword] = useState("");
-
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:4000";
 
 
   const verifyEmail = async (e) => {
@@ -14,7 +14,7 @@ function ForgotPassword() {
     setMessage("");
 
     try {
-      const response = await fetch("http://localhost:4000/api/auth/verifyEmail", {
+      const response = await fetch(`${API_URL}/api/auth/verifyEmail`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
@@ -38,7 +38,7 @@ function ForgotPassword() {
     setMessage("");
 
     try {
-      const response = await fetch("http://localhost:4000/api/auth/reset-password", {
+      const response = await fetch(`${API_URL}/api/auth/reset-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, newPassword }),

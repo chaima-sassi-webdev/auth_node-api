@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const authRoutes = require('./routes/authRoutes'); // adapte le chemin si nécessaire
@@ -7,6 +8,9 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 4000;
 const client = require('prom-client');
+
+
+
 // Initialisation des métriques Prometheus
 client.collectDefaultMetrics();
 
@@ -37,14 +41,16 @@ app.use(cors({
   origin: '*', // autorise uniquement le frontend React
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
 }));
-
+app.get('/', (req, res) => {
+  console.log('Route racine appelée');
+  res.send('API backend is running');
+});
 // 📦 Routes d'authentification
 app.use('/api/auth', authRoutes);
 app.get('/metrics', async (req, res) => {
   res.set('Content-Type', client.register.contentType);
   res.end(await client.register.metrics());
 });
-
 app.use((err, req, res, next) => {
   console.error('Erreur attrapée par middleware global :', err);
   res.status(500).json({ message: 'Erreur interne du serveur' });
