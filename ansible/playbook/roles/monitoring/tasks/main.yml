@@ -28,19 +28,13 @@
     ss -tun | grep ESTAB | wc -l
   register: active_connections
 
-- name: Compter les utilisateurs connectés
-  ansible.builtin.shell: who | wc -l
-  register: logged_in_users
-
-- name: Afficher le nombre d’utilisateurs connectés récupéré
+- name: Récupérer la liste des utilisateurs connectés
   ansible.builtin.shell: who
   register: users_connected
-- debug:
-    msg: "{{ users_connected.stdout_lines }}"
 
-
-
-
+- name: Compter les utilisateurs connectés
+  set_fact:
+    logged_in_users: "{{ users_connected.stdout_lines | length }}"
 - name: Compter les conteneurs Docker en fonctionnement
   ansible.builtin.shell: docker ps -q | wc -l
   register: docker_containers_running
@@ -57,8 +51,29 @@
       RAM Usage: {{ ram_usage.stdout | regex_replace(',', '.') }}%
       Disk Usage: {{ disk_usage.stdout | regex_replace('%', '') | regex_replace(',', '.') }}
       Active Connections: {{ active_connections.stdout }}
-      Logged-in Users: {{ logged_in_users.stdout }}
+      Logged-in Users: {{ logged_in_users }}
       Running Docker Containers: {{ docker_containers_running.stdout }}
+
+- name: Afficher la liste des utilisateurs connectés
+  debug:
+    msg: |
+      Liste des utilisateurs connectés :
+      {{ users_connected.stdout_lines | join('\n') }}
+
+- name: Récupérer les utilisateurs depuis la base PostgreSQL
+  community.postgresql.postgresql_query:
+    db: auth_db
+    query: "SELECT id, username, email, role FROM users;"
+    login_user: postgres
+    login_password: "123"
+    login_host: 127.0.0.1
+    port: 5432
+  register: users_from_db
+
+- name: Afficher les utilisateurs récupérés depuis la base
+  debug:
+    msg: "{{ users_from_db.query_result }}"
+
 
 - name: Sauvegarder toutes les métriques dans un fichier
   copy:
@@ -72,7 +87,7 @@
       RAM Usage: {{ ram_usage.stdout }}%
       Disk Usage: {{ disk_usage.stdout }}
       Active Connections: {{ active_connections.stdout }}
-      Logged-in Users: {{ logged_in_users.stdout }}
+      Logged-in Users: {{ logged_in_users }}
       Running Docker Containers: {{ docker_containers_running.stdout }}
     dest: /tmp/infos_systeme_{{ inventory_hostname }}.txt
 
@@ -88,6 +103,5 @@
       custom_ram_usage_percent {{ ram_usage.stdout | replace(',', '.') }}
       custom_disk_usage_percent {{ disk_usage.stdout | regex_replace('%', '') | replace(',', '.') }}
       custom_active_connections {{ active_connections.stdout }}
-      custom_logged_in_users {{ logged_in_users.stdout }}
+      custom_logged_in_users {{ logged_in_users }}
       custom_docker_containers_running {{ docker_containers_running.stdout }}
-
