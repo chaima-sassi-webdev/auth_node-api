@@ -1,7 +1,6 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const User = require('../models/userModel');
-const client = require('prom-client');
+const bcrypt = require('bcrypt'); const jwt = require('jsonwebtoken'); 
+const User = require('../models/userModel'); const client = 
+require('prom-client');
 
 require('dotenv').config();
 const prometheusRegister = client.register;
