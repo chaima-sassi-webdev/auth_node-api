@@ -1,31 +1,31 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const authRoutes = require('./routes/authRoutes'); // adapte le chemin si nécessaire
-const db = require('./config/db'); // ta config Sequelize
+const authRoutes = require('./routes/authRoutes');
+const db = require('./config/db');
 const fs = require('fs');
 const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 4000;
 const client = require('prom-client');
 
-
-
 // Initialisation des métriques Prometheus
 client.collectDefaultMetrics();
 
-// 🧠 Middleware pour parser le JSON
-app.use(cors());
+// Middleware pour parser le JSON
 app.use(express.json());
 
-// Créer un flux d’écriture vers le fichier backend.log
-const logFile = fs.createWriteStream(path.join(__dirname, '../var/log/backend.log'), { flags: 'a' });
+// Middleware CORS avec options
+app.use(cors({
+  origin: '*', // ou l'URL de ton frontend pour plus de sécurité
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+}));
 
-// Conserver les anciennes fonctions console.log et console.error
+// Logging vers fichier et console
+const logFile = fs.createWriteStream(path.join(__dirname, '../var/log/backend.log'), { flags: 'a' });
 const originalLog = console.log;
 const originalError = console.error;
 
-// Rediriger console.log et console.error vers le fichier ET la console
 console.log = function(message) {
   logFile.write(`[LOG] ${new Date().toISOString()} - ${message}\n`);
   originalLog(message);
@@ -36,29 +36,26 @@ console.error = function(message) {
   originalError(message);
 };
 
-// 🔒 Middleware CORS pour autoriser les requêtes depuis le frontend
-app.use(cors({
-  origin: '*', // autorise uniquement le frontend React
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-}));
+// Routes
 app.get('/', (req, res) => {
   console.log('Route racine appelée');
   res.send('API backend is running');
 });
-// 📦 Routes d'authentification
+
 app.use('/api/auth', authRoutes);
+
 app.get('/metrics', async (req, res) => {
   res.set('Content-Type', client.register.contentType);
   res.end(await client.register.metrics());
 });
+
+// Middleware global de gestion d'erreur
 app.use((err, req, res, next) => {
   console.error('Erreur attrapée par middleware global :', err);
   res.status(500).json({ message: 'Erreur interne du serveur' });
 });
 
-require('dotenv').config();
-
-// 🚀 Connexion à la base de données et démarrage du serveur
+// Connexion à la base et démarrage serveur
 db.authenticate()
   .then(() => {
     console.log('✅ Connexion à la base de données réussie.');
