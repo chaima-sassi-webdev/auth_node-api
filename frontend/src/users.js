@@ -31,7 +31,7 @@ function UsersList() {
     })
     .then((data) => setUsers(data))
     .catch((err) => setError(err.message));
-}, [roleFromNavigate]);
+}, [roleFromNavigate, API_URL]);
 
 
 
