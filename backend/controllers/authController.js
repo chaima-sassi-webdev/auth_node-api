@@ -155,17 +155,21 @@ const verifyEmail = async (req, res) => {
 // 🔄 Réinitialisation du mot de passe
 const forgotPassword = async (req, res) => {
   const { email } = req.body;
+  
   if (!email) {
     return res.status(400).json({ message: "L'email est requis." });
   }
 
   try {
     const user = await User.findOne({ where: { email } });
+    
     if (!user) {
       return res.status(404).json({ message: "Email non trouvé." });
     }
 
+    // Simule l'envoi d'un lien de réinitialisation
     return res.status(200).json({ message: "Lien de réinitialisation envoyé (simulé)." });
+
   } catch (error) {
     console.error('[FORGOT PASSWORD ERROR]', error);
     return res.status(500).json({ message: 'Erreur serveur.' });

@@ -14,19 +14,25 @@ function UsersList() {
   const roleFromNavigate = location.state?.role || "user";
 
   useEffect(() => {
-    setCurrentUserRole(roleFromNavigate);
+  const token = localStorage.getItem("token"); // Récupération du token stocké
 
-    fetch(`${API_URL}/api/auth/users`)
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Erreur lors du chargement des utilisateurs");
-         }
-          return res.json();
-       })
-       .then((data) => setUsers(data))
-       .catch((err) => setError(err.message));
-       // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, [roleFromNavigate]);  // <-- le nom doit correspondre exactement
+  setCurrentUserRole(roleFromNavigate);
+
+  fetch(`${API_URL}/api/auth/users`, {
+    headers: {
+      "Authorization": `Bearer ${token}`, // Ajout du token ici
+    },
+  })
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error("Erreur lors du chargement des utilisateurs");
+      }
+      return res.json();
+    })
+    .then((data) => setUsers(data))
+    .catch((err) => setError(err.message));
+}, [roleFromNavigate]);
+
 
 
   const displayRole = (role) => {
@@ -70,8 +76,12 @@ function UsersList() {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`,
       },
-      body: JSON.stringify({ currentUserRole: currentUserRole, newRole: newRole }),
+      body: JSON.stringify({
+        currentUserRole: currentUserRole,
+        newRole: newRole,
+      }),
     });
+
     const data = await res.json();
     if (res.ok) {
       setUsers(users.map((user) =>
@@ -81,10 +91,11 @@ function UsersList() {
     } else {
       alert(data.message);
     }
-    } catch (error) {
+  } catch (error) {
     console.error("Erreur modification de rôle:", error);
-    }
-  };
+  }
+};
+
 
   const handleLogout = async () => {
     try {
