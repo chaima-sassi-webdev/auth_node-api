@@ -12,7 +12,7 @@ router.post("/logout", authController.logout);
 router.get('/check-superadmin', authController.checkSuperadmin);
 
 // Routes protégées (nécessitent un token valide)
-router.get('/users', authController.getAllUsers);
+router.get('/users', authMiddleware.verifyToken, authController.getAllUsers);
 router.delete('/user/:id', verifyToken, async (req, res) => {
   // On vérifie le rôle de l’utilisateur issu du token
   if (req.user.role !== 'admin') {

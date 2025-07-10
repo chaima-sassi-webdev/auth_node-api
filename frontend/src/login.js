@@ -65,7 +65,14 @@ function Login() {
         />
 	{error && <p className="error">{error}</p>}
         {success && <p className="success">{success}</p>}
-        <button type="submit">Se connecter</button>
+	<button
+  type="button"
+  onClick={() => navigate("/register")}
+>
+  Vous n'avez pas de compte ? Créez-en un
+</button>
+
+
 	<br /> <br />
         <p className="forgot-password-link">
 	  <a href="/forget-password"
