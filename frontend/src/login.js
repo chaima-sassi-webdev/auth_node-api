@@ -67,9 +67,9 @@ function Login() {
         {success && <p className="success">{success}</p>}
 	<button
   type="button"
-  onClick={() => navigate("/register")}
+  onClick={() => navigate("/users")}
 >
-  Vous n'avez pas de compte ? Créez-en un
+  Se connecter
 </button>
 
 
