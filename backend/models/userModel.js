@@ -1,8 +1,12 @@
 // models/userModel.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db'); // assure-toi que ce chemin est correct
-
 const User = sequelize.define('User', {
+  id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
   username: {
     type: DataTypes.STRING,
     allowNull: false,

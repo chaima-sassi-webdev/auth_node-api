@@ -228,8 +228,7 @@ const getAllUsers = async (req, res) => {
 // ❌ Supprimer un utilisateur
 const deleteUser = async (req, res) => {
   const { id } = req.params;
-  const { role } = req.body;
-
+  
   if (role !== 'admin') {
     return res.status(403).json({ message: 'Seul un admin peut supprimer un utilisateur.' });
   }

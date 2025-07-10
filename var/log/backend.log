@@ -105,3 +105,79 @@ Connexion à la base de données réussie.
 [LOG] 2025-07-08T16:24:00.621Z - ✅ Connexion à la base de données réussie.
 [LOG] 2025-07-08T16:24:00.787Z - ✅ Tables synchronisées
 [LOG] 2025-07-08T16:24:00.791Z - 🚀 Serveur démarré sur le port 4000
+[LOG] 2025-07-08T16:33:09.422Z - ✅ Connexion à la base de données cloud (PROD)
+[LOG] 2025-07-08T16:33:09.493Z - ✅ Connexion à la base de données réussie.
+[LOG] 2025-07-08T16:33:09.661Z - ✅ Tables synchronisées
+[LOG] 2025-07-08T16:33:09.668Z - 🚀 Serveur démarré sur le port 4000
+[LOG] 2025-07-10T00:43:57.224Z - ✅ Connexion à la base de données cloud (PROD)
+[LOG] 2025-07-10T00:43:57.230Z - ✅ Connexion à la base de données réussie.
+[LOG] 2025-07-10T00:43:57.525Z - ✅ Tables synchronisées
+[LOG] 2025-07-10T00:43:57.533Z - 🚀 Serveur démarré sur le port 4000
+[LOG] 2025-07-10T00:47:48.647Z - ✅ Connexion à la base de données cloud (PROD)
+[LOG] 2025-07-10T00:47:48.789Z - ✅ Connexion à la base de données réussie.
+[LOG] 2025-07-10T00:47:49.038Z - ✅ Tables synchronisées
+[LOG] 2025-07-10T00:47:49.042Z - 🚀 Serveur démarré sur le port 4000
+[LOG] 2025-07-10T00:47:49.686Z - ✅ Tables créées dans auth_db
+[LOG] 2025-07-10T00:48:41.070Z - ✅ Connexion à la base de données cloud (PROD)
+[LOG] 2025-07-10T00:48:41.077Z - ✅ Connexion à la base de données réussie.
+[LOG] 2025-07-10T00:48:41.688Z - ✅ Tables synchronisées
+[LOG] 2025-07-10T00:48:41.695Z - 🚀 Serveur démarré sur le port 4000
+[LOG] 2025-07-10T00:48:42.090Z - ✅ Tables créées dans auth_db
+[LOG] 2025-07-10T01:02:42.987Z - ✅ Connexion à la base de données postgresql://postgres:DOvpVFPVEBlQLdXdVsEWRzpHRqCgBXfn@gondola.proxy.rlwy.net:39827/railway
+[LOG] 2025-07-10T01:02:42.990Z - ✅ Connexion à la base de données réussie.
+[LOG] 2025-07-10T01:02:43.621Z - ✅ Tables synchronisées
+[LOG] 2025-07-10T01:02:43.640Z - 🚀 Serveur démarré sur le port 4000
+[LOG] 2025-07-10T01:02:44.197Z - ✅ Tables créées dans auth_db
+[LOG] 2025-07-10T01:03:27.060Z - ✅ Connexion à la base de données postgresql://postgres:DOvpVFPVEBlQLdXdVsEWRzpHRqCgBXfn@gondola.proxy.rlwy.net:39827/railway
+[LOG] 2025-07-10T01:03:27.109Z - ✅ Connexion à la base de données réussie.
+[LOG] 2025-07-10T01:03:27.437Z - ✅ Tables synchronisées
+[LOG] 2025-07-10T01:03:27.445Z - 🚀 Serveur démarré sur le port 4000
+[LOG] 2025-07-10T01:03:27.799Z - ✅ Tables créées dans auth_db
+[LOG] 2025-07-10T01:05:34.523Z - ✅ Connexion à la base de données postgresql://postgres:DOvpVFPVEBlQLdXdVsEWRzpHRqCgBXfn@gondola.proxy.rlwy.net:39827/railway
+[LOG] 2025-07-10T01:05:34.526Z - ✅ Connexion à la base de données réussie.
+[LOG] 2025-07-10T01:05:35.263Z - ✅ Tables synchronisées
+[LOG] 2025-07-10T01:05:35.275Z - 🚀 Serveur démarré sur le port 4000
+[LOG] 2025-07-10T01:05:35.876Z - ✅ Tables créées dans auth_db
+[LOG] 2025-07-10T01:05:55.352Z - ✅ Connexion à la base de données postgresql://postgres:DOvpVFPVEBlQLdXdVsEWRzpHRqCgBXfn@gondola.proxy.rlwy.net:39827/railway
+[LOG] 2025-07-10T01:05:55.357Z - ✅ Connexion à la base de données réussie.
+[ERROR] 2025-07-10T01:05:56.140Z - ❌ Erreur lors de la connexion/synchronisation :
+[LOG] 2025-07-10T01:07:08.078Z - ✅ Connexion à la base de données postgresql://postgres:DOvpVFPVEBlQLdXdVsEWRzpHRqCgBXfn@gondola.proxy.rlwy.net:39827/railway
+[LOG] 2025-07-10T01:07:08.153Z - ✅ Connexion à la base de données réussie.
+[LOG] 2025-07-10T01:07:08.530Z - ✅ Tables synchronisées
+[LOG] 2025-07-10T01:07:08.534Z - 🚀 Serveur démarré sur le port 4000
+[LOG] 2025-07-10T01:07:08.823Z - ✅ Tables créées dans auth_db
+[LOG] 2025-07-10T01:41:45.199Z - ✅ Connexion à la base de données postgresql://postgres:DOvpVFPVEBlQLdXdVsEWRzpHRqCgBXfn@gondola.proxy.rlwy.net:39827/railway
+[LOG] 2025-07-10T01:41:45.210Z - ✅ Connexion à la base de données réussie.
+[ERROR] 2025-07-10T01:41:46.477Z - ❌ Erreur lors de la connexion/synchronisation :
+[LOG] 2025-07-10T01:51:25.560Z - ✅ Connexion à la base de données postgresql://postgres:DOvpVFPVEBlQLdXdVsEWRzpHRqCgBXfn@gondola.proxy.rlwy.net:39827/railway
+[LOG] 2025-07-10T01:51:25.723Z - ✅ Connexion à la base de données postgresql://postgres:DOvpVFPVEBlQLdXdVsEWRzpHRqCgBXfn@gondola.proxy.rlwy.net:39827/railway
+[LOG] 2025-07-10T01:51:26.515Z - ✅ Tables synchronisées avec succès
+[LOG] 2025-07-10T01:51:26.626Z - 🚀 Serveur démarré sur le port 4000
+[LOG] 2025-07-10T01:58:08.565Z - ✅ Connexion à la base de données postgresql://postgres:DOvpVFPVEBlQLdXdVsEWRzpHRqCgBXfn@gondola.proxy.rlwy.net:39827/railway
+[LOG] 2025-07-10T01:58:08.606Z - ✅ Connexion à la base de données postgresql://postgres:DOvpVFPVEBlQLdXdVsEWRzpHRqCgBXfn@gondola.proxy.rlwy.net:39827/railway
+[LOG] 2025-07-10T01:58:09.690Z - ✅ Tables synchronisées avec succès
+[LOG] 2025-07-10T01:58:09.794Z - 🚀 Serveur démarré sur le port 4000
+[LOG] 2025-07-10T02:10:24.070Z - ✅ Connexion à la base de données postgresql://postgres:DOvpVFPVEBlQLdXdVsEWRzpHRqCgBXfn@gondola.proxy.rlwy.net:39827/railway
+[LOG] 2025-07-10T02:10:24.200Z - ✅ Connexion à la base de données postgresql://postgres:DOvpVFPVEBlQLdXdVsEWRzpHRqCgBXfn@gondola.proxy.rlwy.net:39827/railway
+[LOG] 2025-07-10T02:10:24.943Z - ✅ Tables synchronisées avec succès
+[LOG] 2025-07-10T02:10:24.947Z - 🚀 Serveur démarré sur le port 4000
+[LOG] 2025-07-10T02:16:16.512Z - ✅ Connexion à la base de données postgresql://postgres:DOvpVFPVEBlQLdXdVsEWRzpHRqCgBXfn@gondola.proxy.rlwy.net:39827/railway
+[LOG] 2025-07-10T02:16:16.600Z - ✅ Connexion à la base de données postgresql://postgres:DOvpVFPVEBlQLdXdVsEWRzpHRqCgBXfn@gondola.proxy.rlwy.net:39827/railway
+[LOG] 2025-07-10T02:16:17.486Z - ✅ Tables synchronisées avec succès
+[LOG] 2025-07-10T02:16:17.492Z - 🚀 Serveur démarré sur le port 4000
+[LOG] 2025-07-10T02:18:18.548Z - ✅ Connexion à la base de données postgresql://postgres:DOvpVFPVEBlQLdXdVsEWRzpHRqCgBXfn@gondola.proxy.rlwy.net:39827/railway
+[LOG] 2025-07-10T02:18:18.648Z - ✅ Connexion à la base de données postgresql://postgres:DOvpVFPVEBlQLdXdVsEWRzpHRqCgBXfn@gondola.proxy.rlwy.net:39827/railway
+[LOG] 2025-07-10T02:18:19.663Z - ✅ Tables synchronisées avec succès
+[LOG] 2025-07-10T02:18:19.667Z - 🚀 Serveur démarré sur le port 4000
+[LOG] 2025-07-10T02:20:08.397Z - ✅ Connexion à la base de données postgresql://postgres:DOvpVFPVEBlQLdXdVsEWRzpHRqCgBXfn@gondola.proxy.rlwy.net:39827/railway
+[LOG] 2025-07-10T02:20:08.431Z - ✅ Connexion à la base de données postgresql://postgres:DOvpVFPVEBlQLdXdVsEWRzpHRqCgBXfn@gondola.proxy.rlwy.net:39827/railway
+[LOG] 2025-07-10T02:20:09.300Z - ✅ Tables synchronisées avec succès
+[LOG] 2025-07-10T02:20:09.310Z - 🚀 Serveur démarré sur le port 4000
+[LOG] 2025-07-10T02:22:27.014Z - ✅ Connexion à la base de données postgresql://postgres:DOvpVFPVEBlQLdXdVsEWRzpHRqCgBXfn@gondola.proxy.rlwy.net:39827/railway
+[LOG] 2025-07-10T02:22:27.017Z - ✅ Connexion à la base de données postgresql://postgres:DOvpVFPVEBlQLdXdVsEWRzpHRqCgBXfn@gondola.proxy.rlwy.net:39827/railway
+[LOG] 2025-07-10T02:22:27.877Z - ✅ Tables synchronisées avec succès
+[LOG] 2025-07-10T02:22:27.884Z - 🚀 Serveur démarré sur le port 4000
+[LOG] 2025-07-10T02:37:46.807Z - ✅ Connexion à la base de données postgresql://postgres:DOvpVFPVEBlQLdXdVsEWRzpHRqCgBXfn@gondola.proxy.rlwy.net:39827/railway
+[LOG] 2025-07-10T02:37:46.890Z - ✅ Connexion à la base de données postgresql://postgres:DOvpVFPVEBlQLdXdVsEWRzpHRqCgBXfn@gondola.proxy.rlwy.net:39827/railway
+[LOG] 2025-07-10T02:37:47.754Z - ✅ Tables synchronisées avec succès
+[LOG] 2025-07-10T02:37:47.760Z - 🚀 Serveur démarré sur le port 4000

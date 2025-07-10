@@ -1,9 +1,10 @@
-require('dotenv').config(); // ✅ Cette ligne doit être en haut
+const envPath = process.env.NODE_ENV === 'production' ? '.env' : '.env.local';
+require('dotenv').config({ path: envPath });
 
 const { Sequelize } = require('sequelize');
 
 // Vérifie si on est en production
-const isProduction = process.env.NODE_ENV === 'production';
+const isProduction = process.env.NODE_ENV === 'production' ? '.env' : 'env.local';
 
 // Choix de l'URL de connexion selon l'environnement
 const dbUrl = isProduction
@@ -13,6 +14,9 @@ const dbUrl = isProduction
 if (!dbUrl) {
   throw new Error('❌ Aucun DATABASE_URL défini dans le fichier .env');
 }
+
+console.log('NODE_ENV:', process.env.NODE_ENV);
+console.log('DATABASE_URL:', process.env.DATABASE_URL);
 
 // Connexion Sequelize
 const sequelize = new Sequelize(dbUrl, {
@@ -33,7 +37,8 @@ const sequelize = new Sequelize(dbUrl, {
 sequelize
   .authenticate()
   .then(() => {
-    console.log(`✅ Connexion à la base de données ${isProduction ? 'cloud (PROD)' : 'locale (DEV)'}`);
+   // console.log(`✅ Connexion à la base de données ${isProduction ? 'cloud (PROD)' : 'locale (DEV)'}`);
+ console.log(`✅ Connexion à la base de données ${dbUrl}`);
   })
   .catch((err) => {
     console.error('❌ Impossible de se connecter à la base de données :', err.message);

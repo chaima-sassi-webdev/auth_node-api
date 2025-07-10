@@ -39,45 +39,50 @@ function UsersList() {
   };
 
   const handleDelete = async (userId) => {
-    try {
-      const res = await fetch(`${API_URL}/api/auth/users/${userId}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ role: currentUserRole }),
-      });
-      const data = await res.json();
-      if (res.ok) {
-        setUsers(users.filter((u) => u.id !== userId));
-      } else {
-        alert(data.message);
-      }
+  const token = localStorage.getItem("token");
+  try {
+    const res = await fetch(`${API_URL}/api/auth/user/${userId}`, {  // attention au /user/ (pas users)
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+      body: JSON.stringify({ role: currentUserRole }),
+    });
+    const data = await res.json();
+    if (res.ok) {
+      setUsers(users.filter((u) => u.id !== userId));
+    } else {
+      alert(data.message);
+    }
     } catch (error) {
-      console.error("Erreur suppression:", error);
+     console.error("Erreur suppression:", error);
     }
   };
 
+
   const handleRoleChange = async (userId, newRole) => {
-    try {
-      const res = await fetch(`${API_URL}/api/auth/users/${userId}/role`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ role: newRole }),
-      });
-      const data = await res.json();
-      if (res.ok) {
-        setUsers(users.map((user) =>
-          user.id === userId ? { ...user, role: newRole } : user
-        ));
-        setEditingUserId(null);
-      } else {
-        alert(data.message);
-      }
+  const token = localStorage.getItem("token");
+  try {
+    const res = await fetch(`${API_URL}/api/auth/user/${userId}/role`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+      body: JSON.stringify({ currentUserRole: currentUserRole, newRole: newRole }),
+    });
+    const data = await res.json();
+    if (res.ok) {
+      setUsers(users.map((user) =>
+        user.id === userId ? { ...user, role: newRole } : user
+      ));
+      setEditingUserId(null);
+    } else {
+      alert(data.message);
+    }
     } catch (error) {
-      console.error("Erreur modification de rôle:", error);
+    console.error("Erreur modification de rôle:", error);
     }
   };
 
